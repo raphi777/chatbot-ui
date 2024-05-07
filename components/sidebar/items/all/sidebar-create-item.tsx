@@ -73,7 +73,6 @@ export const SidebarCreateItem: FC<SidebarCreateItemProps> = ({
     ) => {
       if (!selectedWorkspace) return
 
-      console.log("WSSS", selectedWorkspace)
       const { file, ...rest } = createState
 
       const createdFile = await createFileBasedOnExtension(
