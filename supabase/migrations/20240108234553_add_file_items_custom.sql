@@ -1,6 +1,6 @@
 --------------- FILE ITEMS ---------------
 
-create table file_items (
+create table file_items_custom (
   -- ID
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 
@@ -36,12 +36,12 @@ CREATE INDEX file_items_custom_local_embedding_idx ON file_items_custom
 
 ALTER TABLE file_items_custom ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Allow full access to own file items"
+CREATE POLICY "Allow full access to own file items custom"
     ON file_items_custom
     USING (user_id = auth.uid())
     WITH CHECK (user_id = auth.uid());
 
-CREATE POLICY "Allow view access to non-private file items"
+CREATE POLICY "Allow view access to non-private file items custom"
     ON file_items_custom
     FOR SELECT
     USING (file_id IN (

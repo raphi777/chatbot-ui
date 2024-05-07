@@ -36,12 +36,12 @@ CREATE INDEX files_custom_user_id_idx ON files_custom(user_id);
 
 ALTER TABLE files_custom ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Allow full access to own files"
+CREATE POLICY "Allow full access to own files custom"
     ON files_custom
     USING (user_id = auth.uid())
     WITH CHECK (user_id = auth.uid());
 
-CREATE POLICY "Allow view access to non-private files"
+CREATE POLICY "Allow view access to non-private files custom"
     ON files_custom
     FOR SELECT
     USING (sharing <> 'private');
@@ -101,19 +101,19 @@ AS $$
     );
 $$;
 
-CREATE POLICY "Allow public read access on non-private files"
+CREATE POLICY "Allow public read access on non-private files custom"
     ON storage.objects FOR SELECT TO public
     USING (bucket_id = 'files_custom' AND public.non_private_file_exists(name));
 
-CREATE POLICY "Allow authenticated insert access to own file"
+CREATE POLICY "Allow authenticated insert access to own file custom"
     ON storage.objects FOR INSERT TO authenticated
     WITH CHECK (bucket_id = 'files_custom' AND (storage.foldername(name))[1] = auth.uid()::text);
 
-CREATE POLICY "Allow authenticated update access to own file"
+CREATE POLICY "Allow authenticated update access to own file custom"
     ON storage.objects FOR UPDATE TO authenticated
     USING (bucket_id = 'files_custom' AND (storage.foldername(name))[1] = auth.uid()::text);
 
-CREATE POLICY "Allow authenticated delete access to own file"
+CREATE POLICY "Allow authenticated delete access to own file custom"
     ON storage.objects FOR DELETE TO authenticated
     USING (bucket_id = 'files_custom' AND (storage.foldername(name))[1] = auth.uid()::text);
 
@@ -144,7 +144,7 @@ CREATE INDEX file_workspaces_custom_workspace_id_idx ON file_workspaces_custom(w
 
 ALTER TABLE file_workspaces_custom ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Allow full access to own file_workspaces"
+CREATE POLICY "Allow full access to own file_workspaces_custom"
     ON file_workspaces_custom
     USING (user_id = auth.uid())
     WITH CHECK (user_id = auth.uid());
