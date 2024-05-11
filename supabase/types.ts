@@ -655,14 +655,14 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "file_items_file_id_fkey"
+            foreignKeyName: "file_items_custom_file_id_fkey"
             columns: ["file_id"]
             isOneToOne: false
             referencedRelation: "files_custom"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "file_items_user_id_fkey"
+            foreignKeyName: "file_items_custom_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
@@ -740,21 +740,21 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "file_workspaces_file_id_fkey"
+            foreignKeyName: "file_workspaces_custom_file_id_fkey"
             columns: ["file_id"]
             isOneToOne: false
             referencedRelation: "files_custom"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "file_workspaces_user_id_fkey"
+            foreignKeyName: "file_workspaces_custom_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "file_workspaces_workspace_id_fkey"
+            foreignKeyName: "file_workspaces_custom_workspace_id_fkey"
             columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "workspaces"
@@ -867,14 +867,14 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "files_folder_id_fkey"
+            foreignKeyName: "files_custom_folder_id_fkey"
             columns: ["folder_id"]
             isOneToOne: false
             referencedRelation: "folders"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "files_user_id_fkey"
+            foreignKeyName: "files_custom_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
@@ -1678,6 +1678,20 @@ export type Database = {
           similarity: number
         }[]
       }
+      match_file_items_custom_openai: {
+        Args: {
+          query_embedding: string
+          match_count?: number
+          file_ids?: string[]
+        }
+        Returns: {
+          id: string
+          file_id: string
+          content: string
+          tokens: number
+          similarity: number
+        }[]
+      }
       match_file_items_local: {
         Args: {
           query_embedding: string
@@ -1874,7 +1888,7 @@ export type Database = {
         Args: {
           name: string
         }
-        Returns: string[]
+        Returns: unknown
       }
       get_size_by_bucket: {
         Args: Record<PropertyKey, never>

@@ -5,7 +5,7 @@ create table file_items_custom (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 
   -- RELATIONSHIPS
-  file_id UUID NOT NULL REFERENCES files(id) ON DELETE CASCADE,
+  file_id UUID NOT NULL REFERENCES files_custom(id) ON DELETE CASCADE,
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
 
   -- METADATA
