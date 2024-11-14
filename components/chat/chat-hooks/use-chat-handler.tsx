@@ -13,6 +13,7 @@ import { useContext, useEffect, useRef } from "react"
 import { LLM_LIST } from "../../../lib/models/llm/llm-list"
 import {
   createTempMessages,
+  handleContextRetrieval,
   handleCreateChat,
   handleCreateMessages,
   handleHostedChat,
@@ -66,7 +67,8 @@ export const useChatHandler = () => {
     models,
     isPromptPickerOpen,
     isFilePickerOpen,
-    isToolPickerOpen
+    isToolPickerOpen,
+    customContextFiles
   } = useContext(ChatbotUIContext)
 
   const chatInputRef = useRef<HTMLTextAreaElement>(null)
@@ -233,11 +235,31 @@ export const useChatHandler = () => {
 
       let retrievedFileItems: Tables<"file_items">[] = []
 
+      console.log("newMessageFiles", newMessageFiles)
+      console.log("chatFiles", chatFiles)
+
       if (
         (newMessageFiles.length > 0 || chatFiles.length > 0) &&
         useRetrieval
       ) {
         setToolInUse("retrieval")
+
+        retrievedFileItems = await handleRetrieval(
+          userInput,
+          newMessageFiles,
+          chatFiles,
+          chatSettings!.embeddingsProvider,
+          sourceCount
+        )
+      } else {
+        setChatFiles(
+          customContextFiles.map(file => ({
+            id: file.id,
+            name: file.name,
+            type: file.type,
+            file: null
+          }))
+        )
 
         retrievedFileItems = await handleRetrieval(
           userInput,

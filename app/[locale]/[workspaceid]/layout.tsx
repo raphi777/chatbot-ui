@@ -19,6 +19,7 @@ import { LLMID } from "@/types"
 import { useParams, useRouter } from "next/navigation"
 import { ReactNode, useContext, useEffect, useState } from "react"
 import Loading from "../loading"
+import fetchCustomContextFiles from "@/db/context-files"
 
 interface WorkspaceLayoutProps {
   children: ReactNode
@@ -41,6 +42,7 @@ export default function WorkspaceLayout({ children }: WorkspaceLayoutProps) {
     setPresets,
     setPrompts,
     setTools,
+    setCustomContextFiles,
     setModels,
     selectedWorkspace,
     setSelectedWorkspace,
@@ -154,6 +156,10 @@ export default function WorkspaceLayout({ children }: WorkspaceLayoutProps) {
 
     const modelData = await getModelWorkspacesByWorkspaceId(workspaceId)
     setModels(modelData.models)
+
+    // const filesCustom = await fetchCustomContextFiles()
+    // console.log("files custom", filesCustom)
+    // setCustomContextFiles(filesCustom)
 
     setChatSettings({
       model: (workspace?.default_model || "gpt-4-1106-preview") as LLMID,

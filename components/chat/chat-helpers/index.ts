@@ -58,12 +58,38 @@ export const handleRetrieval = async (
   embeddingsProvider: "openai" | "local",
   sourceCount: number
 ) => {
+  embeddingsProvider = "local"
   const response = await fetch("/api/retrieval/retrieve", {
     method: "POST",
     body: JSON.stringify({
       userInput,
       fileIds: [...newMessageFiles, ...chatFiles].map(file => file.id),
       embeddingsProvider,
+      sourceCount
+    })
+  })
+
+  if (!response.ok) {
+    console.error("Error retrieving:", response)
+  }
+
+  const { results } = (await response.json()) as {
+    results: Tables<"file_items">[]
+  }
+
+  return results
+}
+
+export const handleContextRetrieval = async (
+  userInput: string,
+  newMessageFiles: ChatFile[],
+  sourceCount: number
+) => {
+  const response = await fetch("/api/retrieval/context", {
+    method: "POST",
+    body: JSON.stringify({
+      userInput,
+      fileIds: [...newMessageFiles].map(file => file.id),
       sourceCount
     })
   })

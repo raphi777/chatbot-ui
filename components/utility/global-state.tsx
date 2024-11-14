@@ -27,6 +27,7 @@ import { AssistantImage } from "@/types/images/assistant-image"
 import { VALID_ENV_KEYS } from "@/types/valid-keys"
 import { useRouter } from "next/navigation"
 import { FC, useEffect, useState } from "react"
+import CustomContextLoader from "@/app/[locale]/customContextLoader"
 
 interface GlobalStateProps {
   children: React.ReactNode
@@ -49,6 +50,10 @@ export const GlobalState: FC<GlobalStateProps> = ({ children }) => {
   const [prompts, setPrompts] = useState<Tables<"prompts">[]>([])
   const [tools, setTools] = useState<Tables<"tools">[]>([])
   const [workspaces, setWorkspaces] = useState<Tables<"workspaces">[]>([])
+
+  const [customContextFiles, setCustomContextFiles] = useState<
+    Tables<"files_custom">[]
+  >([])
 
   // MODELS STORE
   const [envKeyMap, setEnvKeyMap] = useState<Record<string, VALID_ENV_KEYS>>({})
@@ -226,6 +231,8 @@ export const GlobalState: FC<GlobalStateProps> = ({ children }) => {
         workspaces,
         setWorkspaces,
 
+        customContextFiles,
+        setCustomContextFiles,
         // MODELS STORE
         envKeyMap,
         setEnvKeyMap,
@@ -326,6 +333,7 @@ export const GlobalState: FC<GlobalStateProps> = ({ children }) => {
       }}
     >
       {children}
+      <CustomContextLoader />
     </ChatbotUIContext.Provider>
   )
 }

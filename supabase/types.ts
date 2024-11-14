@@ -616,6 +616,63 @@ export type Database = {
           },
         ]
       }
+      file_items_custom: {
+        Row: {
+          content: string
+          created_at: string
+          dummy: string
+          file_id: string
+          id: string
+          local_embedding: string | null
+          openai_embedding: string | null
+          sharing: string
+          tokens: number
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          dummy?: string
+          file_id: string
+          id?: string
+          local_embedding?: string | null
+          openai_embedding?: string | null
+          sharing?: string
+          tokens: number
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          dummy?: string
+          file_id?: string
+          id?: string
+          local_embedding?: string | null
+          openai_embedding?: string | null
+          sharing?: string
+          tokens?: number
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "file_items_id_fkey"
+            columns: ["file_id"]
+            isOneToOne: false
+            referencedRelation: "files_custom"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "file_items_custom_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       file_workspaces: {
         Row: {
           created_at: string
@@ -655,6 +712,52 @@ export type Database = {
           },
           {
             foreignKeyName: "file_workspaces_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      file_workspaces_custom: {
+        Row: {
+          created_at: string
+          file_id: string
+          updated_at: string | null
+          user_id: string
+          workspace_id: string
+        }
+        Insert: {
+          created_at?: string
+          file_id: string
+          updated_at?: string | null
+          user_id: string
+          workspace_id: string
+        }
+        Update: {
+          created_at?: string
+          file_id?: string
+          updated_at?: string | null
+          user_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "file_workspaces_custom_file_id_fkey"
+            columns: ["file_id"]
+            isOneToOne: false
+            referencedRelation: "files_custom"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "file_workspaces_custom_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "file_workspaces_custom_workspace_id_fkey"
             columns: ["workspace_id"]
             isOneToOne: false
             referencedRelation: "workspaces"
@@ -715,6 +818,66 @@ export type Database = {
           },
           {
             foreignKeyName: "files_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      files_custom: {
+        Row: {
+          created_at: string
+          description: string
+          file_path: string
+          folder_id: string | null
+          id: string
+          name: string
+          sharing: string
+          size: number
+          tokens: number
+          type: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          file_path: string
+          folder_id?: string | null
+          id?: string
+          name: string
+          sharing?: string
+          size: number
+          tokens: number
+          type: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          file_path?: string
+          folder_id?: string | null
+          id?: string
+          name?: string
+          sharing?: string
+          size?: number
+          tokens?: number
+          type?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "files_custom_folder_id_fkey"
+            columns: ["folder_id"]
+            isOneToOne: false
+            referencedRelation: "folders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "files_custom_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
@@ -1504,6 +1667,34 @@ export type Database = {
         }
         Returns: Record<string, unknown>
       }
+      match_file_items_custom_local: {
+        Args: {
+          query_embedding: string
+          match_count?: number
+          file_ids?: string[]
+        }
+        Returns: {
+          id: string
+          file_id: string
+          content: string
+          tokens: number
+          similarity: number
+        }[]
+      }
+      match_file_items_custom_openai: {
+        Args: {
+          query_embedding: string
+          match_count?: number
+          file_ids?: string[]
+        }
+        Returns: {
+          id: string
+          file_id: string
+          content: string
+          tokens: number
+          similarity: number
+        }[]
+      }
       match_file_items_local: {
         Args: {
           query_embedding: string
@@ -1700,7 +1891,7 @@ export type Database = {
         Args: {
           name: string
         }
-        Returns: string[]
+        Returns: unknown
       }
       get_size_by_bucket: {
         Args: Record<PropertyKey, never>
