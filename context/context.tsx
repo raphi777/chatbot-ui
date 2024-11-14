@@ -38,6 +38,8 @@ interface ChatbotUIContext {
   setTools: Dispatch<SetStateAction<Tables<"tools">[]>>
   workspaces: Tables<"workspaces">[]
   setWorkspaces: Dispatch<SetStateAction<Tables<"workspaces">[]>>
+  customContextFiles: Tables<"files_custom">[]
+  setCustomContextFiles: Dispatch<SetStateAction<Tables<"files_custom">[]>>
 
   // MODELS STORE
   envKeyMap: Record<string, VALID_ENV_KEYS>
@@ -164,6 +166,8 @@ export const ChatbotUIContext = createContext<ChatbotUIContext>({
   setTools: () => {},
   workspaces: [],
   setWorkspaces: () => {},
+  customContextFiles: [],
+  setCustomContextFiles: () => {},
 
   // MODELS STORE
   envKeyMap: {},

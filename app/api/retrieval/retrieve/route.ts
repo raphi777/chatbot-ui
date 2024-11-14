@@ -89,6 +89,8 @@ export async function POST(request: Request) {
       (a, b) => b.similarity - a.similarity
     )
 
+    console.log("CHUNKS", mostSimilarChunks)
+
     return new Response(JSON.stringify({ results: mostSimilarChunks }), {
       status: 200
     })

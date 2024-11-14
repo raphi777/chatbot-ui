@@ -82,12 +82,14 @@ export const handleRetrieval = async (
 
 export const handleContextRetrieval = async (
   userInput: string,
+  newMessageFiles: ChatFile[],
   sourceCount: number
 ) => {
-  const response = await fetch("/api/retrieval/retrieve", {
+  const response = await fetch("/api/retrieval/context", {
     method: "POST",
     body: JSON.stringify({
       userInput,
+      fileIds: [...newMessageFiles].map(file => file.id),
       sourceCount
     })
   })

@@ -620,6 +620,7 @@ export type Database = {
         Row: {
           content: string
           created_at: string
+          dummy: string
           file_id: string
           id: string
           local_embedding: string | null
@@ -632,6 +633,7 @@ export type Database = {
         Insert: {
           content: string
           created_at?: string
+          dummy?: string
           file_id: string
           id?: string
           local_embedding?: string | null
@@ -644,6 +646,7 @@ export type Database = {
         Update: {
           content?: string
           created_at?: string
+          dummy?: string
           file_id?: string
           id?: string
           local_embedding?: string | null
@@ -655,7 +658,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "file_items_custom_file_id_fkey"
+            foreignKeyName: "file_items_id_fkey"
             columns: ["file_id"]
             isOneToOne: false
             referencedRelation: "files_custom"

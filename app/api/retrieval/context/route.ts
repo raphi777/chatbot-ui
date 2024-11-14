@@ -4,10 +4,13 @@ import { Database } from "@/supabase/types"
 
 export async function POST(request: Request) {
   const json = await request.json()
-  const { userInput, sourceCount } = json as {
+  const { userInput, fileIds, sourceCount } = json as {
     userInput: string
+    fileIds: string[]
     sourceCount: number
   }
+
+  const uniqueFileIds = [...new Set(fileIds)]
 
   try {
     const supabaseAdmin = createClient<Database>(
@@ -22,9 +25,10 @@ export async function POST(request: Request) {
     console.log("loacalEmbedding", localEmbedding.length)
 
     const { data: localFileItems, error: localFileItemsError } =
-      await supabaseAdmin.rpc("match_custom_context_local", {
+      await supabaseAdmin.rpc("match_file_items_custom_local", {
         query_embedding: localEmbedding as any,
-        match_count: sourceCount
+        match_count: sourceCount,
+        file_ids: uniqueFileIds
       })
 
     if (localFileItemsError) {

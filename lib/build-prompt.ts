@@ -169,6 +169,8 @@ export async function buildFinalMessages(
     }
   }
 
+  console.log("FINAL MSG:", finalMessages)
+
   return finalMessages
 }
 

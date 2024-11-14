@@ -11,6 +11,7 @@ create table file_items_custom (
   -- METADATA
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ,
+  dummy TEXT NOT NULL DEFAULT 'dummy',
 
   -- SHARING
   sharing TEXT NOT NULL DEFAULT 'private',
